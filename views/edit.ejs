@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .todo-form {
+        margin-bottom: 20px;
+      }
+      .todo-form input[type="text"] {
+        padding: 8px;
+        width: 300px;
+      }
+      .todo-form button {
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .error {
+        color: red;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>編輯待辦事項</h1>
+
+      <form
+        class="todo-form"
+        action="/todos/<%= todo._id %>?_method=PUT"
+        method="POST"
+      >
+        <input
+          class="todo-form input"
+          type="text"
+          name="title"
+          value="<%= todo.title %>"
+          required
+        />
+        <button class="todo-form button" type="submit">更新</button>
+      </form>
+      <% if (typeof error !== 'undefined') { %>
+      <div class="error"><%= error %></div>
+      <% } %>
+
+      <a href="/">返回列表</a>
+    </div>
+  </body>
+</html>

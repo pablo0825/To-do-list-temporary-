@@ -1,0 +1,93 @@
+Todo App EJS Template
+
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>待辦事項清單</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .todo-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: #888;
+      }
+      .todo-form {
+        margin-bottom: 20px;
+      }
+      .todo-form input[type="text"] {
+        padding: 8px;
+        width: 300px;
+      }
+      .todo-form button {
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .delete-btn {
+        padding: 4px 8px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+      .edit-btn {
+        padding: 4px 8px;
+        background-color: #0e72ff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+      .error {
+        color: red;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>待辦事項清單</h1>
+
+    <form class="todo-form" action="/todos" method="POST">
+      <input type="text" name="title" placeholder="新增待辦事項..." required />
+      <button type="submit">新增</button>
+    </form>
+
+    <% if (typeof error !== 'undefined') { %>
+    <div class="error"><%= error %></div>
+    <% } %>
+
+    <div class="todo-list">
+      <% todos.forEach(todo => { %>
+      <div class="todo-item">
+        <form action="/todos/<%= todo._id %>/toggle?_method=PUT" method="POST">
+          <input type="checkbox" onChange="this.form.submit()" <%=
+          todo.completed ? 'checked' : '' %>>
+        </form>
+        <span class="<%= todo.completed ? 'completed' : '' %>"
+          ><%= todo.title %></span
+        >
+        <a class="edit-btn" href="/todos/<%= todo.id %>/edit">編輯</a>
+        <form action="/todos/<%= todo._id %>?_method=DELETE" method="POST">
+          <button class="delete-btn" type="submit">刪除</button>
+        </form>
+      </div>
+      <% }); %>
+    </div>
+  </body>
+</html>
